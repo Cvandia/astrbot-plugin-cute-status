@@ -1,0 +1,32 @@
+{
+  "nickname": {
+    "type": "string",
+    "default": "AstrBot",
+    "description": "卡片昵称，最多 64 字符"
+  },
+  "only_admin": {
+    "type": "bool",
+    "default": false,
+    "description": "仅限 AstrBot 管理员查询"
+  },
+  "to_me": {
+    "type": "bool",
+    "default": false,
+    "description": "群聊必须 @机器人，私聊无需 @"
+  },
+  "cooldown": {
+    "type": "float",
+    "default": 10.0,
+    "description": "全局查询冷却秒数，范围 0–3600，0 关闭"
+  },
+  "disk_path": {
+    "type": "string",
+    "default": "/",
+    "description": "查询该路径所在磁盘，Windows 可填 C:\\"
+  },
+  "font_path": {
+    "type": "string",
+    "default": "",
+    "description": "自定义字体绝对路径，留空使用内置中文字体"
+  }
+}

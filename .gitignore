@@ -218,3 +218,10 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Cute Status
+__pycache__/
+*.py[cod]
+.venv/
+.ruff_cache/
+.pytest_cache/
