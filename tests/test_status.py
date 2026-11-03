@@ -52,8 +52,27 @@ class CoreTests(unittest.TestCase):
         for nickname in ('AstrBot', '可爱的状态机器人'*15):
             png = renderer.render(data, nickname)
             with Image.open(io.BytesIO(png)) as img:
-                self.assertEqual(img.size, (1000, 1340))
+                self.assertEqual(img.size, (1080, 1814))
                 self.assertEqual(img.format, 'PNG')
+
+    def test_upstream_artwork_and_paws_preserved(self):
+        from PIL import Image, ImageChops
+        with Image.open(renderer.KAWAII / 'background.png') as original:
+            original = original.convert('RGB')
+        with Image.open(io.BytesIO(renderer.render(sample(), 'AstrBot'))) as rendered:
+            for box in ((0, 0, 1080, 520), (700, 500, 970, 770),
+                        (125, 750, 195, 820), (700, 1180, 980, 1320)):
+                self.assertIsNone(ImageChops.difference(original.crop(box), rendered.crop(box)).getbbox())
+
+    def test_zero_progress_does_not_draw_arc(self):
+        from dataclasses import replace
+        from PIL import Image, ImageChops
+        data = replace(sample(), cpu_percent=0)
+        with Image.open(renderer.KAWAII / 'background.png') as original:
+            original = original.convert('RGB')
+        with Image.open(io.BytesIO(renderer.render(data, 'AstrBot'))) as rendered:
+            box = (102, 723, 218, 840)
+            self.assertIsNone(ImageChops.difference(original.crop(box), rendered.crop(box)).getbbox())
 
     def test_real_collect(self):
         data = status.collect(str(ROOT), 1)

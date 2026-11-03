@@ -22,11 +22,11 @@ _⭐ 基于 AstrBot 的可爱服务器状态卡片插件 ⭐_
 ---
 
 基于 [nonebot-plugin-kawaii-status](https://github.com/KomoriDev/nonebot-plugin-kawaii-status)
-的功能设计，为 AstrBot 重新实现的服务器状态查看插件。发送指令即可获得粉彩猫咪状态卡片，
+的功能设计，为 AstrBot 重新实现的服务器状态查看插件。发送指令即可获得Kawaii 插画状态卡片，
 查看 CPU、内存、交换区、磁盘、系统信息、已启用插件数和运行时长。
 
 使用 AstrBot 标准消息组件发送图片，无需 NoneBot、Alconna、浏览器或远程渲染服务。
-卡片采用重新绘制的布局与装饰，不是原插件背景图的逐像素复刻。
+卡片复用原插件的插画背景、爪印、配色、字体和 1080 × 1814 布局，框架徽标与页脚改为 AstrBot。
 
 ## 📖 使用
 
@@ -92,7 +92,7 @@ python -m pip install -r data/plugins/astrbot_plugin_cute_status/requirements.tx
 - `status__only_superuser` 对应这里的 `only_admin`；`status__to_me` 对应 `to_me`。
 - 配置通过 AstrBot 插件配置面板管理，不读取 NoneBot `.env`。
 - 使用 AstrBot `Image` 图片组件，无需 OneBot 专属 API；实际图片展示取决于适配器能力。
-- 运行时间是 **AstrBot Python 进程存活时间**，重载插件不会重置；另列系统开机时长。
+- 运行时间是 **AstrBot Python 进程存活时间**，重载插件不会重置；系统开机时长保留在文字降级输出中。
 - 不沿用 NoneBot 的依赖、初始化钩子、插件数量统计或渲染模块。
 
 ### 🧪 开发验证
@@ -103,7 +103,7 @@ python -m compileall -q .
 python -m unittest discover -s tests -v
 ```
 
-测试覆盖采集边界、PNG 渲染、配置校验，以及 SDK 替身下的处理器权限、@、冷却、并发和异常分支。
+测试覆盖原图插画与爪印保留、零进度不绘制弧线、采集边界、PNG 渲染、配置校验，以及 SDK 替身下的处理器权限、@、冷却、并发和异常分支。
 这些测试不代表已在真实 AstrBot 服务或 QQ/Telegram 等平台完成端到端联调。
 
 ### ⚠️ 已知限制
@@ -112,15 +112,15 @@ python -m unittest discover -s tests -v
 - CPU 型号通过 `platform.processor()` 获取，部分系统只能显示架构名；无法获取频率时显示 N/A。
 - 未配置 Swap 时显示 0 GiB / 0%，不会除零。绘图或字体加载失败时返回文字状态并记录日志。
 - 图片发送本身由 AstrBot 平台适配器负责；适配器发送失败需检查 AstrBot 日志。
-- 内置字体为 Noto Sans CJK SC 子集，包含 GB2312 一级常用汉字及卡片所需字符；自定义昵称包含特殊符号或 Emoji 时，建议使用包含对应字形的字体。
+- 默认使用原插件字体，中文昵称使用钉钉进步体；自定义昵称包含特殊符号或 Emoji 时，建议使用包含对应字形的字体。
 - 单次 CPU 采样约 0.5 秒，同时只运行一个采集绘图任务；冷却由各会话共享。
 
 ## 💝 特别鸣谢
 
-- [x] [KomoriDev/nonebot-plugin-kawaii-status](https://github.com/KomoriDev/nonebot-plugin-kawaii-status)：原始功能设计与灵感来源，保留其 MIT 声明。
+- [x] [KomoriDev/nonebot-plugin-kawaii-status](https://github.com/KomoriDev/nonebot-plugin-kawaii-status)：原始功能、渲染布局、插画和字体资源来源，保留其 MIT 声明。
 - [x] [AstrBot](https://github.com/AstrBotDevs/AstrBot)：机器人框架与插件接口。
 - [x] [Pillow](https://github.com/python-pillow/Pillow)、[psutil](https://github.com/giampaolo/psutil)：图片绘制与系统状态采集。
-- [x] [Noto CJK](https://github.com/notofonts/noto-cjk)：内置中文字体，使用 SIL Open Font License 1.1，见 [字体许可](assets/FONT-LICENSE.txt)。
+- [x] 原插件随附的 ADLaM Display、Spicy Rice、钉钉进步体及 baotu 字体：沿用原版排版，资源来源见 [资源说明](assets/README.md)。
 - [x] [Cvandia/nonebot-plugin-genshin-cos](https://github.com/Cvandia/nonebot-plugin-genshin-cos)：README 结构与排版参考。
 
 ### 👥 感谢以下开发者
@@ -133,4 +133,4 @@ python -m unittest discover -s tests -v
 
 [帮助文档](https://docs.astrbot.app/) · [问题反馈](https://github.com/Cvandia/astrbot-plugin-cute-status/issues) · [更新日志](CHANGELOG.md)
 
-代码使用 MIT，见 [LICENSE](LICENSE)。内置字体使用独立的 OFL 许可。
+代码使用 MIT，见 [LICENSE](LICENSE)。插画与字体来源见 [资源说明](assets/README.md)。

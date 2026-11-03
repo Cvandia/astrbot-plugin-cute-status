@@ -12,7 +12,7 @@ from .renderer import render
 from .status import collect, text_status
 
 
-@register("astrbot-plugin-cute-status", "Cvandia", "可爱的服务器状态卡片", "1.0.0", "https://github.com/Cvandia/astrbot-plugin-cute-status")
+@register("astrbot-plugin-cute-status", "Cvandia", "可爱的服务器状态卡片", "1.0.1", "https://github.com/Cvandia/astrbot-plugin-cute-status")
 class CuteStatusPlugin(Star):
     def __init__(self, context: Context, config: AstrBotConfig):
         super().__init__(context)
