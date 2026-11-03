@@ -6,8 +6,8 @@ repos:
     hooks:
       - id: check-added-large-files
         args: [--maxkb=1024]
-        # Upstream fonts are intentionally bundled for offline rendering.
-        exclude: ^assets/kawaii/fonts/.*\.ttf$
+        # Bundled logo and upstream fonts are intentional plugin assets.
+        exclude: '(^assets/kawaii/fonts/.*\.ttf$|^logo\.png$)'
       - id: check-merge-conflict
       - id: check-json
       - id: check-yaml
