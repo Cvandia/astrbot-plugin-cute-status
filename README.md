@@ -98,10 +98,18 @@ python -m pip install -r data/plugins/astrbot_plugin_cute_status/requirements.tx
 ### 🧪 开发验证
 
 ```bash
-python -m pip install -r requirements.txt
+python -m pip install -r requirements-dev.txt
+python -m pre_commit install
+python -m pre_commit run --all-files
 python -m compileall -q .
 python -m unittest discover -s tests -v
 ```
+
+`pre_commit install` 需要在 Git 克隆的仓库中运行；每个本地克隆执行一次，随后提交时会自动检查。
+检查包含 Python 导入排序、Ruff 代码检查与格式化、JSON/YAML 语法、合并冲突标记、行尾及空白。
+普通新增文件限制为 1 MiB，随插件发布的原版 `.ttf` 字体除外。
+自动修正后请检查修改并重新 `git add`、提交。GitHub Actions 也会对全部文件执行同一套检查。
+这些工具属于开发依赖，AstrBot 安装插件时仍只使用 `requirements.txt`。
 
 测试覆盖原图插画与爪印保留、零进度不绘制弧线、采集边界、PNG 渲染、配置校验，以及 SDK 替身下的处理器权限、@、冷却、并发和异常分支。
 这些测试不代表已在真实 AstrBot 服务或 QQ/Telegram 等平台完成端到端联调。

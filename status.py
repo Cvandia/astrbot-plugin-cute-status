@@ -1,4 +1,5 @@
 """System metrics, independent of AstrBot. Call collect() in a worker thread."""
+
 import platform
 import time
 from dataclasses import dataclass
@@ -55,12 +56,18 @@ def collect(disk_path: str, plugins: int) -> Snapshot:
     except psutil.Error:
         started = now
     return Snapshot(
-        cpu, psutil.cpu_count(logical=False) or psutil.cpu_count() or 1,
-        frequency, resource(ram), resource(swap), resource(disk),
+        cpu,
+        psutil.cpu_count(logical=False) or psutil.cpu_count() or 1,
+        frequency,
+        resource(ram),
+        resource(swap),
+        resource(disk),
         f"{platform.system()} {platform.release()}",
         platform.processor() or platform.machine() or "Unknown CPU",
-        max(0, int(now - started)), max(0, int(now - psutil.boot_time())),
-        plugins, datetime.now().astimezone().strftime("%Y-%m-%d %H:%M:%S %Z"),
+        max(0, int(now - started)),
+        max(0, int(now - psutil.boot_time())),
+        plugins,
+        datetime.now().astimezone().strftime("%Y-%m-%d %H:%M:%S %Z"),
     )
 
 
@@ -69,6 +76,11 @@ def text_status(data: Snapshot, nickname: str) -> str:
     for name in ("ram", "swap", "disk"):
         item = getattr(data, name)
         rows.append(f"{name.upper()}: {item.used:.2f} / {item.total:.2f} GiB ({item.percent:.1f}%)")
-    rows.extend([f"AstrBot 进程运行: {format_uptime(data.bot_uptime)}",
-                 f"系统运行: {format_uptime(data.system_uptime)}", f"已启用插件: {data.plugins}"])
+    rows.extend(
+        [
+            f"AstrBot 进程运行: {format_uptime(data.bot_uptime)}",
+            f"系统运行: {format_uptime(data.system_uptime)}",
+            f"已启用插件: {data.plugins}",
+        ]
+    )
     return "\n".join(rows)

@@ -1,4 +1,5 @@
 """Validated AstrBot plugin settings."""
+
 from dataclasses import dataclass
 from math import isfinite
 from typing import Mapping

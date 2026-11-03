@@ -1,4 +1,5 @@
 """AstrBot entry point."""
+
 import asyncio
 import time
 
@@ -12,7 +13,13 @@ from .renderer import render
 from .status import collect, text_status
 
 
-@register("astrbot-plugin-cute-status", "Cvandia", "可爱的服务器状态卡片", "1.0.1", "https://github.com/Cvandia/astrbot-plugin-cute-status")
+@register(
+    "astrbot-plugin-cute-status",
+    "Cvandia",
+    "可爱的服务器状态卡片",
+    "1.0.1",
+    "https://github.com/Cvandia/astrbot-plugin-cute-status",
+)
 class CuteStatusPlugin(Star):
     def __init__(self, context: Context, config: AstrBotConfig):
         super().__init__(context)
@@ -30,7 +37,10 @@ class CuteStatusPlugin(Star):
             yield event.plain_result("只有 AstrBot 管理员可以查看运行状态。")
             return
         if cfg.to_me and not event.is_private_chat():
-            mentioned = any(isinstance(c, At) and str(c.qq) == str(event.get_self_id()) for c in event.get_messages())
+            mentioned = any(
+                isinstance(c, At) and str(c.qq) == str(event.get_self_id())
+                for c in event.get_messages()
+            )
             if not mentioned:
                 event.stop_event()
                 yield event.plain_result("请 @机器人 后使用运行状态指令。")
@@ -46,7 +56,9 @@ class CuteStatusPlugin(Star):
                     yield event.plain_result(f"状态查询冷却中，请 {remaining:.0f} 秒后再试。")
                     return
             try:
-                plugins = sum(bool(getattr(s, "activated", True)) for s in self.context.get_all_stars())
+                plugins = sum(
+                    bool(getattr(s, "activated", True)) for s in self.context.get_all_stars()
+                )
                 # Shield keeps the worker tracked when a request is cancelled:
                 # to_thread cancellation alone cannot stop its underlying thread.
                 self._worker = asyncio.create_task(asyncio.to_thread(self._build, plugins))
